@@ -25,6 +25,10 @@ GOOGLE_API_KEY = "AIzaSyDOSfW102xXeYYVLsaGVdmhKTMoO1mbgIQ"
 # ==========================================
 USER_DB_FILE = "users.json"
 
+if not os.path.exists(USER_DB_FILE):
+    with open(USER_DB_FILE, "w") as f:
+        json.dump({}, f)
+
 def load_users():
     if not os.path.exists(USER_DB_FILE):
         return {}
@@ -127,7 +131,6 @@ if 'chat_history' not in st.session_state: st.session_state['chat_history'] = []
 try: genai.configure(api_key=GOOGLE_API_KEY); model_ai = genai.GenerativeModel('gemini-flash-latest'); ai_available = True
 except: ai_available = False
 
-@st.cache_resource
 # ==========================================
 # 🧠 MODEL LOADER (WITH AUTO-DOWNLOAD)
 # ==========================================
