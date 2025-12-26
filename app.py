@@ -128,13 +128,36 @@ try: genai.configure(api_key=GOOGLE_API_KEY); model_ai = genai.GenerativeModel('
 except: ai_available = False
 
 @st.cache_resource
-def load_model(): return joblib.load('carbon_model_optimized.pkl')
+# ==========================================
+# 🧠 MODEL LOADER (WITH AUTO-DOWNLOAD)
+# ==========================================
+@st.cache_resource
+def load_model_from_github():
+    model_filename = 'carbon_model_optimized.pkl'
+    # 🚨 Make sure you created a Release v1.0 on GitHub first!
+    model_url = f"https://github.com/AditiiSingh03/Carbon_Project/releases/download/v1.0/{model_filename}"
+    
+    if not os.path.exists(model_filename):
+        with st.spinner('Downloading AI Model from GitHub... Please wait.'):
+            try:
+                response = requests.get(model_url, stream=True)
+                response.raise_for_status()
+                with open(model_filename, 'wb') as f:
+                    for chunk in response.iter_content(chunk_size=8192):
+                        f.write(chunk)
+            except Exception as e:
+                st.error(f"Error downloading model: {e}")
+                st.stop()
+    
+    return joblib.load(model_filename)
 
+# Model load karein
 try:
-    data = load_model()
+    data = load_model_from_github()
     model, encoders, feature_names = data['model'], data['encoders'], data['columns']
-except: st.stop()
-
+except Exception as e:
+    st.error(f"Model Load Error: {e}")
+    st.stop()
 # --- HELPERS ---
 def load_lottieurl(url):
     try: r = requests.get(url); return r.json() if r.status_code == 200 else None
