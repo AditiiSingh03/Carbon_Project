@@ -18,8 +18,7 @@ import json
 st.set_page_config(page_title="EcoTrack Pro", page_icon="🌿", layout="wide", initial_sidebar_state="collapsed")
 
 # 🚨 API KEY
-GOOGLE_API_KEY = "AIzaSyDOSfW102xXeYYVLsaGVdmhKTMoO1mbgIQ"
-
+GOOGLE_API_KEY = st.secrets["GEMINI_API_KEY"]
 # ==========================================
 # 🛠️ USER DATABASE MANAGEMENT (JSON)
 # ==========================================
