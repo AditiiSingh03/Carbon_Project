@@ -413,4 +413,3 @@ def main_app():
 # --- RUN ---
 if not st.session_state['logged_in']: login_page()
 else: main_app()
-    
