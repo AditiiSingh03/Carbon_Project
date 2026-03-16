@@ -1,13 +1,14 @@
 streamlit
+joblib
 pandas
 plotly
 shap
 matplotlib
-joblib
 google-generativeai
 fpdf
-Pillow
+pillow
 streamlit-option-menu
 streamlit-lottie
 requests
 scikit-learn
+numpy
